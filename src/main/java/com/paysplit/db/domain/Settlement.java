@@ -52,4 +52,8 @@ public class Settlement {
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    public boolean isSettlementAble() {
+        return status == SettlementStatus.COMPLETED;
+    }
 }
