@@ -1,17 +1,19 @@
 package com.paysplit.db.domain;
 
+import com.paysplit.db.enums.FeeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "settlement_policies")
@@ -25,20 +27,34 @@ public class SettlementPolicy {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "settlement_id", unique = true)
-    private Settlement settlement;
+    @Column(name = "policy_code", nullable = false)
+    private String policyCode;
 
-    @Column(name = "platform_fee_rate", precision = 5, scale = 4, nullable = false)
-    private BigDecimal platformFeeRate;
+    @Column(nullable = false)
+    private int version;
 
-    @Column(name = "leader_share_rate", precision = 5, scale = 4, nullable = false)
-    private BigDecimal leaderShareRate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "platform_fee_type", nullable = false)
+    private FeeType platformFeeType;
 
-    @Column(name = "policy_version", length = 20)
-    private String policyVersion;
+    @Column(name = "platform_fee_value", precision = 10, scale = 2, nullable = false)
+    private BigDecimal platformFeeValue;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "leader_share_type", nullable = false)
+    private FeeType leaderShareType;
+
+    @Column(name = "leader_share_value", precision = 10, scale = 2, nullable = false)
+    private BigDecimal leaderShareValue;
+
+    @Column(name = "active", nullable = false)
+    private boolean active;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 }

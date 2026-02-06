@@ -27,9 +27,14 @@ public class Settlement {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    // 재정산 또는 조정 시 참조하는 원본 Settlement
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "original_settlement_id")
     private Settlement originalSettlement;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "policy_id", nullable = false)
+    private SettlementPolicy settlementPolicy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
@@ -52,4 +57,8 @@ public class Settlement {
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    public boolean isCompleted() {
+        return status == SettlementStatus.COMPLETED;
+    }
 }
