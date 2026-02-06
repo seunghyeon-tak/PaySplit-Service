@@ -3,6 +3,7 @@ package com.paysplit.api.business;
 import com.paysplit.api.dto.settlement.request.SettlementExecuteRequest;
 import com.paysplit.api.dto.settlement.response.SettlementExecuteResponse;
 import com.paysplit.api.service.PaymentService;
+import com.paysplit.api.service.SettlementPolicyService;
 import com.paysplit.api.service.SettlementService;
 import com.paysplit.common.annotation.Business;
 import com.paysplit.common.error.payment.PaymentErrorCode;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class SettlementExecuteBusiness {
     private final SettlementService settlementService;
     private final PaymentService paymentService;
+    private final SettlementPolicyService settlementPolicyService;
 
     public SettlementExecuteResponse execute(SettlementExecuteRequest request) {
         // 1. 결제 정보 조회 (유효성 확인)
@@ -29,6 +31,7 @@ public class SettlementExecuteBusiness {
         Settlement settlement = settlementService.createSettlement(payment);
 
         // 3. 정산 정책 적용 (금액 분배 계산)
+        settlementPolicyService.applyPolicy(settlement);
         // 4. SettlementItem 생성 및 저장
         // 5. 응답 DTO 변환 및 반환
 

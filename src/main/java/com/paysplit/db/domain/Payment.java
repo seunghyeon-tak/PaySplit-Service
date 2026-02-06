@@ -31,6 +31,10 @@ public class Payment {
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal amount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "policy_id", nullable = false)
+    private SettlementPolicy settlementPolicy;
+
     @Column(length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;

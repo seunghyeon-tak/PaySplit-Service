@@ -34,7 +34,7 @@ public class SettlementItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "settlement_id")
+    @JoinColumn(name = "settlement_id", nullable = false)
     private Settlement settlement;
 
     @Enumerated(EnumType.STRING)
@@ -42,7 +42,7 @@ public class SettlementItem {
     private ReceiverType receiverType;
 
     @Column(name = "receiver_id", nullable = false)
-    private Integer receiverId;
+    private Long receiverId;
 
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal amount;
