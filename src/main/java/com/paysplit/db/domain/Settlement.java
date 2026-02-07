@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "settlements")
@@ -58,7 +58,7 @@ public class Settlement {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    public boolean isCompleted() {
-        return status == SettlementStatus.COMPLETED;
+    public void complete() {
+        this.status = SettlementStatus.COMPLETED;
     }
 }

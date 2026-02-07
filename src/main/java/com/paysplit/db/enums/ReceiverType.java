@@ -6,8 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ReceiverType {
-    LEADER("파티장"),
-    PLATFORM("플랫폼");
+    MEMBER_PAYMENT("파티원 결제"),
+    LEADER_PAYMENT("파티장 결제"),
+    PLATFORM_SUPPORT("플랫폼 지원");
 
     private final String description;
 }

@@ -1,15 +1,14 @@
 package com.paysplit.api.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class ApiResponse<T> {
     private final boolean success;
     private final String message;
     private final T data;
-
-    public ApiResponse(boolean success, String message, T data) {
-        this.success = success;
-        this.message = message;
-        this.data = data;
-    }
 
     // 성공 - 데이터 없음
     public static ApiResponse<Void> success() {
