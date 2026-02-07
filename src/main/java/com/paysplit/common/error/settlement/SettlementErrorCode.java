@@ -22,6 +22,21 @@ public enum SettlementErrorCode implements ErrorCode {
             "SETTLEMENT_003",
             "이미 정산이 완료된 결제입니다",
             HttpStatus.CONFLICT
+    ),
+    INVALID_DISTRIBUTION_AMOUNT(
+            "SETTLEMENT_004",
+            "정산 분배 금액이 올바르지 않습니다",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_PARTY_SIZE(
+            "SETTLEMENT_005",
+            "정산 인원 수가 올바르지 않습니다",
+            HttpStatus.BAD_REQUEST
+    ),
+    SETTLEMENT_AMOUNT_MISMATCH(
+            "SETTLEMENT_006",
+            "정산 금액 합계가 일치하지 않습니다",
+            HttpStatus.INTERNAL_SERVER_ERROR
     )
     ;
 
