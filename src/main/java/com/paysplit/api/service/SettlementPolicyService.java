@@ -145,4 +145,12 @@ public class SettlementPolicyService {
                 .multiply(value)
                 .setScale(MONEY_SCALE, MONEY_ROUNDING);
     }
+
+    public BigDecimal calculateLeaderDiscount(SettlementPolicy policy, BigDecimal totalAmount) {
+        return calculatePolicyAmount(
+                policy.getLeaderShareType(),
+                policy.getLeaderShareValue(),
+                totalAmount
+        );
+    }
 }

@@ -8,7 +8,11 @@ import com.paysplit.db.domain.SubscriptionPlan;
 import com.paysplit.db.enums.SubscriptionStatus;
 import com.paysplit.db.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +39,10 @@ public class SubscriptionService {
                 .orElseThrow(() -> new SubscriptionException(SubscriptionErrorCode.SUBSCRIPTION_NOT_FOUND));
 
         subscription.cancel();
+    }
+
+    public List<Subscription> getActiveSubscriptions(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return subscriptionRepository.findAllByStatus(SubscriptionStatus.ACTIVE, pageable);
     }
 }

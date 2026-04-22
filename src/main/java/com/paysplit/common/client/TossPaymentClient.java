@@ -1,12 +1,13 @@
 package com.paysplit.common.client;
 
+import com.paysplit.common.client.dto.TossBillingChargeResponse;
 import com.paysplit.common.client.dto.TossBillingKeyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
+import java.math.BigDecimal;
 import java.util.Base64;
 import java.util.Map;
 
@@ -35,6 +36,28 @@ public class TossPaymentClient {
                 ))
                 .retrieve()
                 .bodyToMono(TossBillingKeyResponse.class)
+                .block();
+    }
+
+    public TossBillingChargeResponse chargeBilling(
+            String billingKey, String customerKey, BigDecimal amount, String orderId, String orderName,
+            String customerEmail, String customerName) {
+        String encodedKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes());
+
+        return webClient.post()
+                .uri(baseUrl + "/v1/billing/{billingKey}", billingKey)
+                .header("Authorization", "Basic" + encodedKey)
+                .header("Content-Type", "application/json")
+                .bodyValue(Map.of(
+                        "customerKey", customerKey,
+                        "amount", amount,
+                        "orderId", orderId,
+                        "orderName", orderName,
+                        "customerEmail", customerEmail,
+                        "customerName", customerName
+                ))
+                .retrieve()
+                .bodyToMono(TossBillingChargeResponse.class)
                 .block();
     }
 }

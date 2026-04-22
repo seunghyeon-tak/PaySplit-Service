@@ -1,6 +1,8 @@
 package com.paysplit.api.service;
 
 import com.paysplit.common.client.dto.TossBillingKeyResponse;
+import com.paysplit.common.error.billing.BillingKeyErrorCode;
+import com.paysplit.common.error.billing.BillingKeyException;
 import com.paysplit.common.error.user.UserErrorCode;
 import com.paysplit.common.error.user.UserException;
 import com.paysplit.db.domain.BillingKey;
@@ -39,5 +41,10 @@ public class BillingKeyService {
                 .build();
 
         return billingKeyRepository.save(billingKey);
+    }
+
+    public BillingKey getByUser(User user) {
+        return billingKeyRepository.findByUser(user)
+                .orElseThrow(() -> new BillingKeyException(BillingKeyErrorCode.BILLING_KEY_USER_NOT_FOUND));
     }
 }

@@ -1,6 +1,8 @@
 package com.paysplit.common.error;
 
 import com.paysplit.api.response.ApiResult;
+import com.paysplit.common.error.billing.BillingKeyErrorCode;
+import com.paysplit.common.error.billing.BillingKeyException;
 import com.paysplit.common.error.party.PartyException;
 import com.paysplit.common.error.party_member.PartyMemberErrorCode;
 import com.paysplit.common.error.party_member.PartyMemberException;
@@ -18,6 +20,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BillingKeyException.class)
+    public ResponseEntity<ApiResult<?>> handlerBillingKeyException(BillingKeyException e) {
+        ErrorCode code = e.getErrorCode();
+
+        log.warn("BillingKeyException : code={}, message={}", code.getCode(), code.getMessage(), e);
+
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResult.error(code.getCode(), code.getMessage(), null));
+    }
 
     @ExceptionHandler(PartyMemberException.class)
     public ResponseEntity<ApiResult<?>> handlerPartyMemberException(PartyMemberException e) {
