@@ -73,4 +73,8 @@ public class PartyMemberService {
             member.leave();
         }
     }
+
+    public List<PartyMember> getActiveMembers(Long partyId) {
+        return partyMemberRepository.findByPartyIdAndStatus(partyId, PartyMemberStatus.ACTIVE);
+    }
 }
